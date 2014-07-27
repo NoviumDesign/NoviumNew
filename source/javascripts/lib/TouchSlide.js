@@ -60,7 +60,7 @@ var TouchSlide = function (pagesClass, navigateClass)
 
     if (pageHolder.offset().left >= 0 || pageHolder.offset().left + pageHolder.width() - $(window).width() <= 0)
     {
-      x = (touch.pageX - this.X[0])/2 + this.animOffsetX;
+      x = (touch.pageX - this.X[0])*0.3 + this.animOffsetX;
     }
     else
     {
