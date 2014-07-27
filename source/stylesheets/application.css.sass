@@ -85,9 +85,12 @@ body, html
           background: blue
         &#two
           background: green
-          height: 1600px
+          .content
+            height: 1600px
         &#three
           background: cyan
+        &#four
+          background: yellow
 
   .sidebar
     position: absolute
@@ -113,6 +116,10 @@ body, html
 
     transition: opacity 300ms
     -webkit-transition: opacity 300ms /* Safari */
+
+    @media (max-width: 480px) /* hide when on a phone */
+      display: none
+    
 
   .arrow-right
     right: -50px

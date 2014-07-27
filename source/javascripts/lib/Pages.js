@@ -25,6 +25,11 @@ var Pages = function ()
     return this.currentPageIndex;
   }
 
+  this.getNumberOfPages = function ()
+  {
+    return pageHolder.children('.page').length;
+  }
+
   this.findPage = function (htmlId)
   {
     var page;
@@ -143,24 +148,6 @@ var Pages = function ()
     // resetting position
     this.setPage(this.currentPageIndex)
   }
-
-  $(document).keydown(function (event)
-  {
-    var k = event.which;
-
-    if (k == 39 || k == 40)
-    {
-      // right
-      event.preventDefault();
-      that.slideRight();
-    }
-    else if (k == 37 || k == 38)
-    {
-      // left
-      event.preventDefault();
-      that.slideLeft();
-    }
-  });
 
   $(window).resize(function ()
   {

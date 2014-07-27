@@ -1,6 +1,6 @@
 // TouchSlide class
 
-var TouchSlide = function (pagesClass)
+var TouchSlide = function (pagesClass, navigateClass)
 {
   var
     slideDuration = 0.3,
@@ -10,15 +10,18 @@ var TouchSlide = function (pagesClass)
 
   this.animOffsetX = 0;
   this.X = [];
+  this.Y = [];
   this.T = [];
   this.timeout;
 
   this.slideStart = function (event)
   {
-    var offset = pagesClass.getOffset();
+    var
+      offset = pagesClass.getOffset();
 
     // reset for new slide
     this.X = [];
+    this.Y = [];
     this.T = [];
 
     // store offset when (if) animation is interupted
@@ -32,16 +35,42 @@ var TouchSlide = function (pagesClass)
   {
     var
       touch = event.originalEvent.touches[0], // one finger
-      x;
+      x,
+      dx,
+      dy;
 
     // save
     this.X.push(touch.pageX);
+    this.Y.push(touch.pageY);
     this.T.push(event.timeStamp);
 
-    x = this.animOffsetX + touch.pageX - this.X[0];
+    // enable vertical scrolling
+    if (this.X.length > 1)
+    {
+      dx = Math.abs(this.X[0] - this.X[1]);
+      dy = Math.abs(this.Y[0] - this.Y[1]);
+
+      // console.log(dy > dx)
+
+      if (dy > dx)
+      {
+        return false;
+      }
+    }
+
+    if (pageHolder.offset().left >= 0 || pageHolder.offset().left + pageHolder.width() - $(window).width() <= 0)
+    {
+      x = (touch.pageX - this.X[0])/2 + this.animOffsetX;
+    }
+    else
+    {
+      x = this.animOffsetX + touch.pageX - this.X[0];
+    }
 
     // render
     pagesClass.setOffset(x);
+
+    return true;
   }
 
   this.slideEnd = function (event)
@@ -154,7 +183,11 @@ var TouchSlide = function (pagesClass)
       pageIndex = Math.abs(Math.round(x/pageWidth))
 
       // set page
-      pagesClass.setPage(pageIndex);
+      // pagesClass.setPage(pageIndex);
+
+      var page = pagesClass.getPage(pageIndex);
+
+      navigate.to(page.attr('id'), 'link')
 
       // finished
       this.x = 0;
@@ -182,10 +215,16 @@ var TouchSlide = function (pagesClass)
 
   $(window).on('touchmove', function(event)
   {
-    // no device scrolling
-    event.preventDefault();
+    var test = that.sliding(event);
 
-    that.sliding(event);
+    console.log(test)
+
+
+    if (test)
+    { 
+      // no device scrolling
+      event.preventDefault();
+    }
   })
 
   $(window).on('touchend', function(event)

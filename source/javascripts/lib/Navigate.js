@@ -10,16 +10,41 @@ Navigate = function (pagesClass)
   {
     var section = pagesClass.findPage(htmlId);
 
-    pagesClass.slideTo(section.index());
+    if (section)
+    {
+      pagesClass.slideTo(section.index());
+    }
+  }
+
+  this.goTo = function (index)
+  {
+    var
+      section = pagesClass.getPage(index),
+      id;
+
+    if (section)
+    {
+      id = section.attr('id');
+
+      that.to(id, 'link')
+    }
   }
 
   this.to = function (hash, type)
   {
+    var
+      pageContentHeight = $('.page#' + hash + ' .content').height(),
+      windowHeight = $(window).height(),
+      wrapperHeight = Math.max(pageContentHeight, windowHeight);
+
     if (this.treated)
     {
       // alreday taken care of
       return false;
     }
+
+    // set height to wrapper according to content so the page will be scrollable
+    $('.wrapper').height(wrapperHeight)
 
     // stop propagation
     this.treated = true;
@@ -46,6 +71,7 @@ Navigate = function (pagesClass)
   {
     var
       page,
+      section,
       triggerElement;
 
     console.log('hashchange:', hash)
@@ -75,9 +101,7 @@ Navigate = function (pagesClass)
         window.location.hash = '';
         window.location.hash = hash;
 
-
         page.attr('id', hash);
-
 
         // reset as before
         setTimeout(function ()
@@ -97,7 +121,9 @@ Navigate = function (pagesClass)
 
   this.hashedLink = function (hash)
   {
-    var page;
+    var
+      section,
+      page;
 
     console.log('click:', hash)
 
@@ -185,6 +211,26 @@ Navigate = function (pagesClass)
       that.slideTo(hash);
     }, 0);
   }
+
+  $(document).keydown(function (event)
+  {
+    var
+      k = event.which,
+      current = pagesClass.getCurrentPage();
+
+    if (k == 39 || k == 40)
+    {
+      // right
+      event.preventDefault();
+      that.goTo(current + 1);
+    }
+    else if (k == 37 || k == 38)
+    {
+      // left
+      event.preventDefault();
+      that.goTo(current - 1);
+    }
+  });
 
   // launches document at right page
   this.loadPage();

@@ -7,7 +7,7 @@ var initiate = function ()
 {
 
   pages = new Pages();
-  pages.setPage(0)
+  // pages.setPage(0)
 
   touchSlide = new TouchSlide(pages);
   navigate = new Navigate(pages);

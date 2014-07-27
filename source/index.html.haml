@@ -8,6 +8,9 @@ body_class: index
 
 
 
+
+
+
 .wrapper
 
   .overlay
@@ -17,17 +20,23 @@ body_class: index
       %a{:href => '#one'} one
       %a{:href => '#two'} two
       %a{:href => '#three'} three
-      %a.view-sidebar{:href => '#'} test
+      %a{:href => '#four'} four
+      .view-sidebar test
 
   .slider
-    .page#one 1
-    .page#two 2 
-    .page#three 3
+    .page#one
+      .content 1
+    .page#two
+      .content 2 
+    .page#three
+      .content 3
+    .page#four
+      .content 4
+
 
   .arrow-right
   .arrow-left
 
 .sidebar
-
 
 
