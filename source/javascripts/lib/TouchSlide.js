@@ -12,17 +12,20 @@ var TouchSlide = function (pagesClass, navigateClass)
   this.X = [];
   this.Y = [];
   this.T = [];
+  this.scroll = false;
   this.timeout;
 
   this.slideStart = function (event)
   {
     var
-      offset = pagesClass.getOffset();
+      offset = pagesClass.getOffset(),
+      touch = event.originalEvent.touches[0]; // one finger
 
     // reset for new slide
-    this.X = [];
-    this.Y = [];
-    this.T = [];
+    this.X = [touch.pageX];
+    this.Y = [touch.pageY];
+    this.T = [event.timeStamp];
+    this.scroll = false;
 
     // store offset when (if) animation is interupted
     this.animOffsetX = offset.left;
@@ -44,18 +47,14 @@ var TouchSlide = function (pagesClass, navigateClass)
     this.Y.push(touch.pageY);
     this.T.push(event.timeStamp);
 
-    // enable vertical scrolling
-    if (this.X.length > 1)
+    dx = Math.abs(this.X[0] - this.X[1]);
+    dy = Math.abs(this.Y[0] - this.Y[1]);
+
+    if (dy > dx)
     {
-      dx = Math.abs(this.X[0] - this.X[1]);
-      dy = Math.abs(this.Y[0] - this.Y[1]);
-
-      // console.log(dy > dx)
-
-      if (dy > dx)
-      {
-        return false;
-      }
+      // veritcal scrolling
+      this.scroll = true;
+      return false;
     }
 
     if (pageHolder.offset().left >= 0 || pageHolder.offset().left + pageHolder.width() - $(window).width() <= 0)
@@ -89,6 +88,11 @@ var TouchSlide = function (pagesClass, navigateClass)
       k = 1,
       h = 0.5,
       translate;
+
+    if (this.X.length < 2 || this.scroll)
+    {
+      return false
+    }
 
     // save finial points
     this.X.push(touch.pageX);
@@ -180,14 +184,11 @@ var TouchSlide = function (pagesClass, navigateClass)
 
     if (t > t_f)
     {
-      pageIndex = Math.abs(Math.round(x/pageWidth))
-
-      // set page
-      // pagesClass.setPage(pageIndex);
+      pageIndex = Math.abs(Math.round(x/pageWidth));
 
       var page = pagesClass.getPage(pageIndex);
 
-      navigate.to(page.attr('id'), 'link')
+      navigateClass.to(page.attr('id'), 'link');
 
       // finished
       this.x = 0;
@@ -217,11 +218,8 @@ var TouchSlide = function (pagesClass, navigateClass)
   {
     var test = that.sliding(event);
 
-    console.log(test)
-
-
     if (test)
-    { 
+    {
       // no device scrolling
       event.preventDefault();
     }

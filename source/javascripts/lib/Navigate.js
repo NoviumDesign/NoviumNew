@@ -32,10 +32,7 @@ Navigate = function (pagesClass)
 
   this.to = function (hash, type)
   {
-    var
-      pageContentHeight = $('.page#' + hash + ' .content').height(),
-      windowHeight = $(window).height(),
-      wrapperHeight = Math.max(pageContentHeight, windowHeight);
+    var pageIndex = pagesClass.findPage(hash).index();
 
     if (this.treated)
     {
@@ -43,8 +40,8 @@ Navigate = function (pagesClass)
       return false;
     }
 
-    // set height to wrapper according to content so the page will be scrollable
-    $('.wrapper').height(wrapperHeight)
+    // set height and scroll
+    pagesClass.preparePage(pageIndex);
 
     // stop propagation
     this.treated = true;
@@ -125,7 +122,7 @@ Navigate = function (pagesClass)
       section,
       page;
 
-    console.log('click:', hash)
+    // console.log('click:', hash)
 
     if (hash.length > 0)
     {
@@ -146,7 +143,6 @@ Navigate = function (pagesClass)
       }
     }
   }
-
 
   $('a').click(function (event)
   {
@@ -178,7 +174,8 @@ Navigate = function (pagesClass)
   {
     var
       pages = pageHolder.children('.page'),
-      hash = window.location.hash.substring(1);
+      hash = window.location.hash.substring(1),
+      pageIndex = pagesClass.findPage(hash).index();
 
     // remove all id's before the page is complete
     pages.each(function ()
@@ -206,6 +203,9 @@ Navigate = function (pagesClass)
         // remove storage
         $(this).removeAttr('temp-id');
       });
+
+      // set height and scroll
+      pagesClass.preparePage(pageIndex);
 
       // move screen to desired page
       that.slideTo(hash);

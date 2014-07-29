@@ -20,6 +20,21 @@ var Pages = function ()
     return false
   }
 
+  this.preparePage = function (index)
+  {
+    var
+      pageId = this.getPage(index).attr('id'),
+      pageContentHeight = $('.page#' + pageId + ' .content').height(),
+      windowHeight = $(window).height(),
+      wrapperHeight = Math.max(pageContentHeight, windowHeight);
+
+    // set height to wrapper according to content so the page will be scrollable
+    $('.wrapper').height(wrapperHeight)
+
+    // scroll top after page change
+    $('html, body').animate({scrollTop: 1}, 400); // 1 because iphone shall remain a large screen
+  }
+
   this.getCurrentPage = function ()
   {
     return this.currentPageIndex;
@@ -43,8 +58,9 @@ var Pages = function ()
         return page;
       }
     }
-    
-    return false
+
+    // instead of sending false send first page
+    return pageHolder.children('.page').eq(0);
   }
 
   this.setPage = function (index)

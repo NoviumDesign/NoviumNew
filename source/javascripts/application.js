@@ -9,8 +9,10 @@ var initiate = function ()
   pages = new Pages();
   // pages.setPage(0)
 
-  touchSlide = new TouchSlide(pages);
   navigate = new Navigate(pages);
+
+
+  touchSlide = new TouchSlide(pages, navigate);
 
 }
 

@@ -12,8 +12,11 @@ $slide-transition-duration: 700ms   // edit in js as well
 body, html
   height: 100%
   width: 100%
-  overflow: hidden
+
+  // overflow: hidden
   // overflow-y: scroll       // scroll
+  // overflow-x: hidden
+
 
   // .image-holder
   //   position: fixed
@@ -29,14 +32,14 @@ body, html
 
 
   .wrapper
-    position: absolute
+    position: relative
     left: 0
     width: 100%
     height: 100%
     overflow: hidden
 
-    transition: left $sidebar-transition-duration
-    -webkit-transition: left $sidebar-transition-duration /* Safari */
+    transition: margin-top $sidebar-transition-duration, height 400ms linear
+    -webkit-transition: margin-top $sidebar-transition-duration, height 400ms linear /* Safari */
 
 
     .overlay
@@ -50,7 +53,6 @@ body, html
 
       transition:  visibility 0s linear $sidebar-transition-duration, opacity $sidebar-transition-duration linear
       -webkit-transition:  visibility 0s linear $sidebar-transition-duration, opacity $sidebar-transition-duration linear /* Safari */
-
 
 
     header
@@ -93,26 +95,27 @@ body, html
           background: yellow
 
   .sidebar
-    position: absolute
-    top: 0
-    right: -500px
     z-index: 3
-    width: 500px
-    height: 100%
+    position: absolute
+    top: -400px
+    width: 100%
+    height: 400px
     background: red
 
-    transition: right $sidebar-transition-duration
-    -webkit-transition: right $sidebar-transition-duration /* Safari */
+    transition: top $sidebar-transition-duration
+    -webkit-transition: top $sidebar-transition-duration /* Safari */
+
 
   .arrow-holder
     z-index: 2
     position: fixed
     left: 0
+    top: 0
     width: 100%
     height: 100%
 
-    transition: left $sidebar-transition-duration
-    -webkit-transition: left $sidebar-transition-duration /* Safari */
+    transition: top $sidebar-transition-duration
+    -webkit-transition: top $sidebar-transition-duration /* Safari */
 
     .arrow-left, .arrow-right
       position: absolute
@@ -136,11 +139,14 @@ body, html
 
 
 body.sidebar-visible
-  .wrapper, .arrow-holder
-    left: -500px
+  .wrapper
+    margin-top: 400px
+
+  .arrow-holder
+    top: 400px
 
   .sidebar
-    right: 0
+    top: 0
 
   .overlay
     opacity: 1
@@ -157,3 +163,8 @@ body.no-right
   .arrow-right
     opacity: 0.2
 
+
+footer
+  width: 100%
+  height: 300px
+  background-color: purple
