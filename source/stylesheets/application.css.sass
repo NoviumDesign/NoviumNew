@@ -28,10 +28,10 @@ body, html
     transition: margin-top $sidebar-transition-duration, height 400ms linear
     -webkit-transition: margin-top $sidebar-transition-duration, height 400ms linear /* Safari */
 
-
     .overlay
-      position: absolute
+      position: fixed
       z-index: 6
+      top: 0
       width: 100%
       height: 100%
       background-color: rgba(0, 0, 0, 0.5)
@@ -40,7 +40,6 @@ body, html
 
       transition:  visibility 0s linear $sidebar-transition-duration, opacity $sidebar-transition-duration linear
       -webkit-transition:  visibility 0s linear $sidebar-transition-duration, opacity $sidebar-transition-duration linear /* Safari */
-
 
     header
       position: relative
@@ -122,8 +121,8 @@ body, html
           color: $yellow
 
   .sidebar
-    z-index: 3
-    position: absolute
+    z-index: 7
+    position: fixed
     top: -400px
     width: 100%
     height: 400px
@@ -163,16 +162,16 @@ body, html
 
 
   .arrow-holder
-    z-index: 2
     position: fixed
+    z-index: 2
     left: 0
     top: 0
     width: 100%
     height: 100%
     pointer-events: none
 
-    transition: top $sidebar-transition-duration
-    -webkit-transition: top $sidebar-transition-duration /* Safari */
+    transition: top $sidebar-transition-duration, opacity $sidebar-transition-duration
+    -webkit-transition: top $sidebar-transition-duration, opacity $sidebar-transition-duration /* Safari */
 
     .arrow
       position: absolute
@@ -221,10 +220,19 @@ body, html
 
 body.sidebar-visible
   .wrapper
+    position: fixed
     margin-top: 400px
 
   .arrow-holder
     top: 400px
+    opacity: 0.5
+
+    .arrow
+      cursor: default
+      pointer-events: none
+
+      &:hover .bar
+        background-color: #fff
 
   .sidebar
     top: 0
