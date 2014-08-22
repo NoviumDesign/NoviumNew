@@ -81,3 +81,8 @@ configure :build do
   # Or use a different image path
   # set :http_path, "/Content/images/"
 end
+
+configure :build do
+  activate :minify_css
+  activate :minify_javascript
+end

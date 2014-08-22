@@ -1,0 +1,70 @@
+.open-sidebar
+  position: relative
+  width: 48px
+  height: 24px
+  float: right
+  cursor: pointer
+  overflow: hidden
+
+  transition: height 1.5*$fx-transition-duration $fx-transition-duration
+  -webkit-transition: height 1.5*$fx-transition-duration $fx-transition-duration /* Safari */
+
+  .bar
+    position: absolute
+    height: 4px
+    background-color: #000
+    border-radius: 2px
+
+    transition: top $fx-transition-duration
+    -webkit-transition: top $fx-transition-duration /* Safari */
+
+    &:nth-of-type(1)
+      left: 0
+      right: 0
+
+      transition: left $fx-transition-duration, right $fx-transition-duration
+      -webkit-transition: left $fx-transition-duration, right $fx-transition-duration
+
+    &:nth-of-type(2)
+      width: 48px
+      top: 10px
+      left: 0
+      transform-origin: bottom left
+
+      transition: transform $fx-transition-duration $fx-transition-duration, width $fx-transition-duration $fx-transition-duration, top $fx-transition-duration
+      -webkit-transition: transform $fx-transition-duration $fx-transition-duration, width $fx-transition-duration $fx-transition-duration, top $fx-transition-duration
+    &:nth-of-type(3)
+      width: 48px
+      top: 20px
+      right: 0px
+      transform-origin: bottom right
+
+      transition: transform $fx-transition-duration $fx-transition-duration, width $fx-transition-duration $fx-transition-duration, top $fx-transition-duration
+      -webkit-transition: transform $fx-transition-duration $fx-transition-duration, width $fx-transition-duration $fx-transition-duration, top $fx-transition-duration
+
+  &:hover, &.active
+    height: 48px
+
+    transition: height 0
+    -webkit-transition: height 0 /* Safari */
+
+    .bar
+      top: 0
+
+      &:nth-of-type(1)
+        top: 0
+        left: 24px
+        right: 24px
+
+      &:nth-of-type(2)
+        width: 34px !important
+        transform: rotate(45deg)
+
+        transition: transform $fx-transition-duration, width $fx-transition-duration, top $fx-transition-duration $fx-transition-duration
+        -webkit-transition: transform $fx-transition-duration, width $fx-transition-duration, top $fx-transition-duration $fx-transition-duration
+      &:nth-of-type(3)
+        width: 34px !important
+        transform: rotate(-45deg)
+
+        transition: transform $fx-transition-duration, width $fx-transition-duration, top $fx-transition-duration $fx-transition-duration
+        -webkit-transition: transform $fx-transition-duration, width $fx-transition-duration, top $fx-transition-duration $fx-transition-duration
