@@ -152,17 +152,23 @@ var Pages = function ()
 
   this.resize = function ()
   {
-    var n, width;
+    if ($('body').hasClass('index')) {
+      var n, width, height;
 
-    width = $(window).width();
-    n = $('.slider .page').length;
+      width = $(window).width();
+      height = $(window).height();
+      n = $('.slider .page').length;
 
-    // setting width
-    $('.slider').width(n*width);
-    $('.slider .page').width(width);
+      // setting width
+      $('.slider').width(n*width);
+      $('.slider .page').width(width);
 
-    // resetting position
-    this.setPage(this.currentPageIndex)
+      // setting height
+      $('.wrapper').height(height);
+
+      // resetting position
+      this.setPage(this.currentPageIndex)
+    }
   }
 
   $(window).resize(function ()
